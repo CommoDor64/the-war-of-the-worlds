@@ -1,0 +1,4 @@
+Foo south=Bar west=FooBar
+Bar north=Foo west=BarFoo
+FooBar east=Foo south=BarFoo
+BarFoo north=FooBar east=Bar
