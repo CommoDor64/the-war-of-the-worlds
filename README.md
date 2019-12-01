@@ -41,5 +41,5 @@ I ended up with a rather simple model in my simulation
 
 `clone https://github.com/CommoDor64/the-war-of-the-worlds.git`  
 `cd the-war-of-the-worlds`  
-`go mode install`  
+`go mod install`  
 `go run main.go <number_of_aliens>`
