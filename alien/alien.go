@@ -123,6 +123,7 @@ package alien
 import (
 	"fmt"
 	"math/rand"
+	"sync"
 	"time"
 )
 
@@ -148,7 +149,6 @@ func (a Alien) die(quit chan bool) {
 		select {
 		case m, ok := <-a.Heart:
 			if ok {
-				fmt.Println("got", m, "alien", a.Name)
 				if m.City.Status == Fight {
 					quit <- true
 					return
@@ -158,10 +158,10 @@ func (a Alien) die(quit chan bool) {
 	}
 }
 
-func (a Alien) move(city City) {
+func (a Alien) move(city *City, quit chan bool) {
 	radioTower := city.RadioTower
-	for j := 0; j < 10000; j++ {
-		time.Sleep(time.Second * 2)
+	for j := 0; j < 10; j++ {
+		time.Sleep(time.Second)
 		a.Action = Visit
 		radioTower <- Datagram{
 			Alien: Alien{
@@ -172,17 +172,12 @@ func (a Alien) move(city City) {
 			},
 		}
 		select {
-		case m, ok := <-a.Ears:
+		case _, ok := <-a.Ears:
 			if ok {
-				fmt.Println("got", m, "alien", a.Name)
-				// if m.City.Status == Fight {
-				// 	fmt.Println("alien", a.Name, "dies on", city.Name)
-				// 	return
-				// }
 			}
 		}
 		// spend time in city
-		time.Sleep(time.Second * 5)
+		time.Sleep(time.Second)
 		// leave city
 		radioTower <- Datagram{Alien: Alien{
 			Name:   a.Name,
@@ -194,17 +189,19 @@ func (a Alien) move(city City) {
 		outRoadsLen := len(datagram.City.OutRoads)
 		if outRoadsLen <= 0 {
 			fmt.Println("alien", a.Name, "is stuck on", city.Name)
+			quit <- true
 			return
 		}
 		rn := rand.Intn(outRoadsLen)
 		radioTower = datagram.City.OutRoads[rn].Road
 	}
+	quit <- true
 }
-func (a Alien) Roam(city City) {
+func (a Alien) Roam(city *City, wg *sync.WaitGroup) {
 	quit := make(chan bool)
 	go a.die(quit)
-	go a.move(city)
+	go a.move(city, quit)
 	<-quit
-	fmt.Println("Roam ended")
+	wg.Done()
 	return
 }

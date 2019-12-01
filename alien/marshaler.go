@@ -46,9 +46,9 @@ func (m marshaler) Unmarshal(file []byte) []RawCity {
 func (m marshaler) Marshal(cities []City) string {
 	file := ""
 	for _, city := range cities {
-		file += fmt.Sprintf("%s ", city.Name)
+		file += fmt.Sprintf("%s", city.Name)
 		for _, p := range city.OutRoads {
-			file += fmt.Sprintf("%v=%s", p.Name, p.Direction)
+			file += fmt.Sprintf(" %v=%s", p.Name, p.Direction)
 		}
 		file += "\n"
 	}
