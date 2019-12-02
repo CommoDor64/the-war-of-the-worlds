@@ -37,9 +37,19 @@ I ended up with a rather simple model in my simulation
    b. Another alien is in the city, in this case the aliens goroutines will halt, the city will let other cities (only neighbour cities) know that they should ignore it in the future, and halt as well
 4. After some time if all aliens are dead or after some amount of aliens city hops (default 10,000), the program will stop and will print out to a file updated map.
 
+# What could have been done better:
+
+1. **Complex and convoluted code** - The low degree of spereation between the client (Alien) and Network/Node/Server (City) makes the codebase a bit spaghetti.
+2. **Data Race** - Because of lots of message transfer without a suitable protocol, there are some incidents of data race, for example in the case of creating a larger number of aliens than cities. This can be fixed but requires some model change so I left it as it is.
+
+# Notes
+
+In an ideal situation, I would just create the Client (Alien) and Network/Node/Server (City) in a complete seperate manner, which means with established communication protocol and better structure overall.  
+Since this project was implemented using 100% Go with no dependencies, it was challenging but also quite interesting, as the challenges were quite unusual.
+
 # Run
 
 `clone https://github.com/CommoDor64/the-war-of-the-worlds.git`  
 `cd the-war-of-the-worlds`  
-`go mod install`  
+`go mode install`  
 `go run main.go <number_of_aliens>`
