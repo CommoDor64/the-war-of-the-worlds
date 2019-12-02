@@ -186,6 +186,7 @@ func (a Alien) move(city *City, quit chan bool) {
 			Action: Leave,
 		}}
 		datagram := <-a.Ears
+		fmt.Println("after", a.Name, "left", datagram.City.Name, "got", datagram.City.OutRoads)
 		outRoadsLen := len(datagram.City.OutRoads)
 		if outRoadsLen <= 0 {
 			fmt.Println("alien", a.Name, "is stuck on", city.Name)
@@ -198,7 +199,7 @@ func (a Alien) move(city *City, quit chan bool) {
 	quit <- true
 }
 func (a Alien) Roam(city *City, wg *sync.WaitGroup) {
-	quit := make(chan bool)
+	quit := make(chan bool, 1)
 	go a.die(quit)
 	go a.move(city, quit)
 	<-quit

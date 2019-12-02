@@ -1,6 +1,7 @@
 package alien
 
 import (
+	"fmt"
 	"log"
 	"sync"
 )
@@ -39,7 +40,7 @@ func (c City) receive(sm *sync.Map, quit chan bool) {
 			// aliens leaves the city
 			case datagram.Alien.Action == Leave:
 				c.Visitors = removeAlien(c.Visitors, datagram.Alien)
-				log.Printf("alien %s left on %s\n", datagram.Alien.Name, c.Name)
+				log.Printf("alien %s left %s and gets %v\n", datagram.Alien.Name, c.Name, c.OutRoads)
 				datagram.Alien.Ears <- Datagram{
 					City: City{
 						ID:       c.ID,
@@ -58,6 +59,7 @@ func (c City) receive(sm *sync.Map, quit chan bool) {
 					newOutRoads = append(newOutRoads, outRoad)
 				}
 				c.OutRoads = newOutRoads
+				fmt.Println(c.OutRoads)
 				sm.Store(c.Name, c)
 			}
 		}

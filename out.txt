@@ -1,3 +1,2 @@
 Bar BarFoo=west
-FooBar BarFoo=south
-BarFoo FooBar=north Bar=east
+BarFoo Bar=east
