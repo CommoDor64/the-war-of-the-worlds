@@ -51,8 +51,14 @@ Since this project was implemented using 100% Go with no dependencies, it was ch
 
 The entire project took around 10 hours, where it includes thinking about a model, trying simple ones and getting to the end result.
 
-# Run
+# Project Structure and Run
 
+**/alien** - the alien package defines the entire case specific progam  
+**/alien/alien.go** - defiens alien's behavior and data model  
+**/aliien/city** - defines city's behavior and data model  
+**/alien/repository.go** - help functions  
+**/alien/marshaler.go** - marshaler to convert from plain text to the model and from model to plain text  
+**/alien/mode.go** - defiens all the models, for city, alien and messages between them  
 `clone https://github.com/CommoDor64/the-war-of-the-worlds.git`  
 `cd the-war-of-the-worlds`  
 `go mode install`  
