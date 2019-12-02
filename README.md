@@ -41,11 +41,15 @@ I ended up with a rather simple model in my simulation
 
 1. **Complex and convoluted code** - The low degree of spereation between the client (Alien) and Network/Node/Server (City) makes the codebase a bit spaghetti.
 2. **Data Race** - Because of lots of message transfer without a suitable protocol, there are some incidents of data race, for example in the case of creating a larger number of aliens than cities. This can be fixed but requires some model change so I left it as it is.
+3. **More flexibilty in config** - If I had the time I would add config to the city and alien (now the internal behavior is hardcoded), preferably as idiomatic golang functional configurations.
+4. **Tests** - I did not want to make half ass work with the tests so I decided to submit without.
 
 # Notes
 
 In an ideal situation, I would just create the Client (Alien) and Network/Node/Server (City) in a complete seperate manner, which means with established communication protocol and better structure overall.  
 Since this project was implemented using 100% Go with no dependencies, it was challenging but also quite interesting, as the challenges were quite unusual.
+
+The entire project took around 10 hours, where it includes thinking about a model, trying simple ones and getting to the end result.
 
 # Run
 
@@ -53,3 +57,5 @@ Since this project was implemented using 100% Go with no dependencies, it was ch
 `cd the-war-of-the-worlds`  
 `go mode install`  
 `go run main.go <number_of_aliens>`
+
+The output will be stored in out.txt

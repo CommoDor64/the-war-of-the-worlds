@@ -40,7 +40,7 @@ func (c City) receive(sm *sync.Map, quit chan bool) {
 			// aliens leaves the city
 			case datagram.Alien.Action == Leave:
 				c.Visitors = removeAlien(c.Visitors, datagram.Alien)
-				log.Printf("alien %s left %s and gets %v\n", datagram.Alien.Name, c.Name, c.OutRoads)
+				log.Printf("alien %s left %s\n", datagram.Alien.Name, c.Name)
 				datagram.Alien.Ears <- Datagram{
 					City: City{
 						ID:       c.ID,

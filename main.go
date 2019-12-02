@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"math/rand"
 	"os"
 	"strconv"
@@ -20,14 +21,6 @@ func onError(err error) {
 		panic(err)
 	}
 }
-
-// must fix
-// func testFormat(line string) {
-// 	// name-length was set to 85 to cover the city Taumatawhakatangi­hangakoauauotamatea­turipukakapikimaunga­horonukupokaiwhen­uakitanatahu
-// 	r := regexp.MustCompile(`[A-Za-z0-9_-]{0,85} (north\=[A-Za-z0-9_-]+)? (west\=[A-Za-z0-9_-]+)? (south\=[A-Za-z0-9_-]+)? (east\=[A-Za-z0-9_-]+)?`)
-// 	submatch := r.FindStringSubmatch(line)
-// 	fmt.Println(submatch)
-// }
 
 func main() {
 	// read cli args
@@ -72,7 +65,7 @@ func main() {
 			})
 		}
 		newCity := alien.NewCity(c.ID, c.Name, cityOutRoads, allRoads[string(c.Name)])
-		fmt.Println(newCity)
+		log.Println("creating a new city", newCity)
 		sm.Store(newCity.Name, newCity)
 		citySlice = append(citySlice, &newCity)
 		go newCity.Run(&sm)
@@ -100,5 +93,7 @@ func main() {
 		}
 		return true
 	})
+	fmt.Println()
+	log.Println("the updated map can be found in out.txt")
 	ioutil.WriteFile("out.txt", []byte(ma.Marshal(lastCities)), 0666)
 }
